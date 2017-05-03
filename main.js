@@ -1,4 +1,5 @@
 const electron = require('electron')
+const clipboard = require('electron').clipboard
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -32,6 +33,11 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  setInterval(() => {
+    console.log("test")
+    console.log(clipboard.readText())
+  }, 1000)
 }
 
 // This method will be called when Electron has finished
