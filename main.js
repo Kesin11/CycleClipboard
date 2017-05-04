@@ -1,7 +1,6 @@
 const electron = require('electron')
 const clipboard = electron.clipboard
 const globalShortcut = electron.globalShortcut
-const robot = require('robotjs')
 
 // Module to control application life.
 const app = electron.app
@@ -40,7 +39,6 @@ function createWindow () {
   setInterval(() => {
     console.log("test")
     // console.log(clipboard.readText())
-    // robot.keyTap("enter")
   }, 1000)
 }
 
