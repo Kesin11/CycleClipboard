@@ -1,5 +1,7 @@
 const electron = require('electron')
 const clipboard = require('electron').clipboard
+const robot = require('robotjs')
+
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -37,6 +39,7 @@ function createWindow () {
   setInterval(() => {
     console.log("test")
     console.log(clipboard.readText())
+    robot.keyTap("enter")
   }, 1000)
 }
 

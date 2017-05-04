@@ -13,6 +13,8 @@ npm start
 
 # build
 npm build
+## may need electron-rebuild for native module 'robotjs'
+## ./node_modules/.bin/electron-rebuild
 
 # test
 npm test
