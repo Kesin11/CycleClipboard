@@ -28,5 +28,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "vue": "^2.3.2"
+  }
 }
