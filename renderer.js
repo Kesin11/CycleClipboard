@@ -12,12 +12,12 @@ const app = Vue.component('app', {
     <div>app {{ message }}</div>
   `,
   data: () => {
-      return {
-        message: 'todo',
+    return {
+      message: 'todo'
     }
   }
 })
 new Vue({
   el: '#app',
-  render: h => h(app),
+  render: h => h(app)
 })
