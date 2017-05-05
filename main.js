@@ -57,9 +57,14 @@ app.on('will-quit', () => {
   globalShortcut.unregisterAll()
 })
 
+let count = 1
 function registerGlobalShortcut () {
   globalShortcut.register('CommandOrControl+Shift+V', () => {
     console.log('CommandOrControl+Shift+V is pressed')
+
+    mainWindow.webContents.send('countUp', count)
+    count += 1
+
     mainWindow.show()
   })
   globalShortcut.register('CommandOrControl+Shift+C', () => {

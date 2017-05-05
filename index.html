@@ -11,7 +11,9 @@
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
     <br>
-    <div id="app"></div>
+    <div id="vue">
+      <app :count="count" :entries="entries"></app>
+    </div>
   </body>
 
   <script>

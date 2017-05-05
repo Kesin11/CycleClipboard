@@ -1,5 +1,4 @@
 {
     "extends": "standard",
-    "indent": ["error", 4],
     "comma-dangle": ["error", "always-multiline"]
 }
