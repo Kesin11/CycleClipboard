@@ -1,6 +1,6 @@
 const electron = require('electron')
 const ClipboardWatcher = require('./lib/ClipboardWatcher')
-const { ROTATE_CLIPBOARD } = require('./lib/EventTypes')
+const { RELOAD_ENTRIES } = require('./lib/EventTypes')
 const globalShortcut = electron.globalShortcut
 
 // Module to control application life.
@@ -67,18 +67,22 @@ app.on('will-quit', () => {
 
 function registerGlobalShortcut () {
   globalShortcut.register('CommandOrControl+Shift+V', () => {
-    console.log('CommandOrControl+Shift+V is pressed')
-
-    const nextEntries = clipboardWatcher.getEntries()
-    mainWindow.webContents.send(ROTATE_CLIPBOARD, nextEntries)
-
-    // 既に開いていたらgetNextEntriesでrotateさせる
-
-    mainWindow.show()
+    let nextEntries = []
+    // rotate entries if window has already opend
+    if (mainWindow.isVisible()) {
+      nextEntries = clipboardWatcher.getNextEntries()
+      mainWindow.webContents.send(RELOAD_ENTRIES, nextEntries)
+    // just open window
+    } else {
+      nextEntries = clipboardWatcher.getEntries()
+      mainWindow.webContents.send(RELOAD_ENTRIES, nextEntries)
+      clipboardWatcher.startRotateMode()
+      mainWindow.show()
+    }
   })
   globalShortcut.register('CommandOrControl+Shift+C', () => {
-    console.log('CommandOrControl+Shift+C is pressed')
     mainWindow.hide()
+    clipboardWatcher.endRotateMode()
     Menu.sendActionToFirstResponder('hide:') // 前のアプリにフォーカスを戻す
   })
 }
