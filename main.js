@@ -1,5 +1,6 @@
 const electron = require('electron')
-const clipboard = electron.clipboard
+const ClipboardWatcher = require('./lib/ClipboardWatcher')
+const { ROTATE_CLIPBOARD } = require('./lib/EventTypes')
 const globalShortcut = electron.globalShortcut
 
 // Module to control application life.
@@ -13,6 +14,8 @@ const Menu = electron.Menu
 
 const path = require('path')
 const url = require('url')
+
+const clipboardWatcher = new ClipboardWatcher()
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -50,20 +53,26 @@ app.on('ready', () => {
     mainWindow.show()
   })
   registerGlobalShortcut()
+  clipboardWatcher.startPolling()
+  // clipboardWatcher.onAddEntry(() => {
+  //   console.log("onAddEntry", clipboardWatcher.buffer)
+  // })
 })
 
 app.on('will-quit', () => {
   // Unregister all shortcuts.
   globalShortcut.unregisterAll()
+  clipboardWatcher.destroy()
 })
 
-let count = 1
 function registerGlobalShortcut () {
   globalShortcut.register('CommandOrControl+Shift+V', () => {
     console.log('CommandOrControl+Shift+V is pressed')
 
-    mainWindow.webContents.send('countUp', count)
-    count += 1
+    const nextEntries = clipboardWatcher.getEntries()
+    mainWindow.webContents.send(ROTATE_CLIPBOARD, nextEntries)
+
+    // 既に開いていたらgetNextEntriesでrotateさせる
 
     mainWindow.show()
   })
