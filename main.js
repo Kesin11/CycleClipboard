@@ -1,25 +1,18 @@
-const electron = require('electron')
-const ClipboardWatcher = require('./lib/ClipboardWatcher')
-const { RELOAD_ENTRIES } = require('./lib/EventTypes')
-const globalShortcut = electron.globalShortcut
-
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
-
-const Tray = electron.Tray
-let tray
-const Menu = electron.Menu
-
+const {
+  app,
+  BrowserWindow,
+  globalShortcut,
+  Tray,
+  Menu
+} = require('electron')
 const path = require('path')
 const url = require('url')
+const ClipboardWatcher = require('./lib/ClipboardWatcher')
+const { RELOAD_ENTRIES } = require('./lib/EventTypes')
 
-const clipboardWatcher = new ClipboardWatcher()
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+let tray
 let mainWindow
+const clipboardWatcher = new ClipboardWatcher()
 
 function createWindow () {
   // Create the browser window.
@@ -54,6 +47,7 @@ app.on('ready', () => {
   })
   registerGlobalShortcut()
   clipboardWatcher.startPolling()
+  // TODO: 最終的に不要であれば消しておく
   // clipboardWatcher.onAddEntry(() => {
   //   console.log("onAddEntry", clipboardWatcher.buffer)
   // })
@@ -67,14 +61,13 @@ app.on('will-quit', () => {
 
 function registerGlobalShortcut () {
   globalShortcut.register('CommandOrControl+Shift+V', () => {
-    let nextEntries = []
     // rotate entries if window has already opend
     if (mainWindow.isVisible()) {
-      nextEntries = clipboardWatcher.getNextEntries()
+      const nextEntries = clipboardWatcher.getNextEntries()
       mainWindow.webContents.send(RELOAD_ENTRIES, nextEntries)
     // just open window
     } else {
-      nextEntries = clipboardWatcher.getEntries()
+      const nextEntries = clipboardWatcher.getEntries()
       mainWindow.webContents.send(RELOAD_ENTRIES, nextEntries)
       clipboardWatcher.startRotateMode()
       mainWindow.show()
