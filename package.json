@@ -6,7 +6,9 @@
   "scripts": {
     "postinstall": "electron-rebuild",
     "start": "electron .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "ava",
+    "test:watch": "ava --watch"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -19,6 +21,7 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
+    "ava": "^0.19.1",
     "electron": "~1.6.2",
     "electron-rebuild": "^1.5.7",
     "eslint": "^3.19.0",
