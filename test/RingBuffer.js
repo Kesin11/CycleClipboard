@@ -5,6 +5,15 @@ test.beforeEach(t => {
   t.context.ringBuffer = new RingBuffer({size: 5})
 })
 
+test('setArray', t => {
+  const expectArray = [1, 2, 3, 4, 5]
+  t.context.ringBuffer.setArray(expectArray)
+  t.deepEqual(t.context.ringBuffer._arr, expectArray, 'setArray within size')
+
+  t.context.ringBuffer.setArray([1, 2, 3, 4, 5, 6, 7])
+  t.deepEqual(t.context.ringBuffer._arr, expectArray, 'setArray over size')
+})
+
 test('push one', t => {
   t.context.ringBuffer.push(1)
   t.deepEqual(t.context.ringBuffer._arr, [1], 'push one')
@@ -43,8 +52,7 @@ test('read', t => {
 })
 
 test('clear', t => {
-  t.context.ringBuffer.push(1)
-  t.context.ringBuffer.push(2)
+  t.context.ringBuffer.setArray([1, 2])
   t.notDeepEqual(t.context.ringBuffer._arr, [], 'before clear()')
 
   t.context.ringBuffer.clear()
@@ -52,9 +60,7 @@ test('clear', t => {
 })
 
 test('rotate', t => {
-  t.context.ringBuffer.push(1)
-  t.context.ringBuffer.push(2)
-  t.context.ringBuffer.push(3)
+  t.context.ringBuffer.setArray([1, 2, 3])
   t.context.ringBuffer.rotate()
 
   t.deepEqual(t.context.ringBuffer._arr, [3, 1, 2], 'rotate()')
