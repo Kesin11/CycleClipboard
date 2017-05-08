@@ -10,9 +10,12 @@ const url = require('url')
 const ClipboardWatcher = require('./lib/ClipboardWatcher')
 const { RELOAD_ENTRIES } = require('./lib/EventTypes')
 
+const SUBMIT_TIMEOUT = 3000
+
 let tray
 let mainWindow
 const clipboardWatcher = new ClipboardWatcher()
+let submitTimeoutId
 
 function createWindow () {
   // Create the browser window.
@@ -63,6 +66,8 @@ app.on('will-quit', () => {
 
 function registerGlobalShortcut () {
   globalShortcut.register('CommandOrControl+Shift+V', () => {
+    resetAutoSubmit()
+
     // rotate entries if window has already opend
     if (mainWindow.isVisible()) {
       const nextEntries = clipboardWatcher.getNextEntries()
@@ -74,10 +79,26 @@ function registerGlobalShortcut () {
       clipboardWatcher.startRotateMode()
       mainWindow.show()
     }
+
+    // auto submit
+    submitTimeoutId = setTimeout(() => {
+      submit()
+    }, SUBMIT_TIMEOUT)
   })
   globalShortcut.register('CommandOrControl+Shift+C', () => {
-    mainWindow.hide()
-    clipboardWatcher.endRotateMode()
-    Menu.sendActionToFirstResponder('hide:') // 前のアプリにフォーカスを戻す
+    submit()
   })
+}
+
+function submit () {
+  resetAutoSubmit()
+
+  clipboardWatcher.writeFirstEntry()
+  mainWindow.hide()
+  clipboardWatcher.endRotateMode()
+  Menu.sendActionToFirstResponder('hide:') // 前のアプリにフォーカスを戻す
+}
+
+function resetAutoSubmit () {
+  if (submitTimeoutId) clearTimeout(submitTimeoutId)
 }
