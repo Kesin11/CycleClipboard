@@ -2,13 +2,14 @@ const {
   app,
   BrowserWindow,
   globalShortcut,
+  ipcMain,
   Tray,
   Menu
 } = require('electron')
 const path = require('path')
 const url = require('url')
 const ClipboardWatcher = require('./lib/ClipboardWatcher')
-const { RELOAD_ENTRIES } = require('./lib/EventTypes')
+const { RELOAD_ENTRIES, SUBMIT_ENTRY } = require('./lib/EventTypes')
 
 const SUBMIT_TIMEOUT = 3000
 
@@ -64,6 +65,11 @@ app.on('will-quit', () => {
   clipboardWatcher.destroy()
 })
 
+// submit when press Enter key on mainWindow
+ipcMain.on(SUBMIT_ENTRY, (_event) => {
+  submit()
+})
+
 function registerGlobalShortcut () {
   globalShortcut.register('CommandOrControl+Shift+V', () => {
     resetAutoSubmit()
@@ -79,6 +85,8 @@ function registerGlobalShortcut () {
       clipboardWatcher.startRotateMode()
       mainWindow.show()
     }
+
+    mainWindow.focus()
 
     // auto submit
     submitTimeoutId = setTimeout(() => {

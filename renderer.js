@@ -6,7 +6,7 @@
 // https://stackoverflow.com/questions/39488660/vue-js-2-0-not-rendering-anything
 const Vue = require('vue/dist/vue.js')
 const ipcRenderer = require('electron').ipcRenderer
-const { RELOAD_ENTRIES } = require('./lib/EventTypes')
+const { RELOAD_ENTRIES, SUBMIT_ENTRY } = require('./lib/EventTypes')
 
 const AppComponent = Vue.component('app', {
   template: `
@@ -39,4 +39,11 @@ const app = new Vue({
 ipcRenderer.on(RELOAD_ENTRIES, (_event, entries) => {
   console.log(RELOAD_ENTRIES, entries)
   app.changeEntries(entries)
+})
+
+// submit when press Enter key
+window.addEventListener('keyup', (event) => {
+  if (event.key === 'Enter') {
+    ipcRenderer.send(SUBMIT_ENTRY)
+  }
 })
