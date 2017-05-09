@@ -33,22 +33,34 @@ test('push multi', t => {
 })
 
 test('read', t => {
-  t.context.ringBuffer.push(1)
-  t.context.ringBuffer.push(2)
-  t.is(t.context.ringBuffer.read(), 2, 'read last value')
+  t.context.ringBuffer.setArray([1, 2, 3])
+  t.is(t.context.ringBuffer.read(), 1, 'read index 0')
+  t.is(t.context.ringBuffer.read(1), 2, 'read index 1')
+  t.is(t.context.ringBuffer.read(-1), 3, 'read index -1')
+  t.is(t.context.ringBuffer.read(-2), 2, 'read index -2')
+})
 
-  t.context.ringBuffer.push(3)
-  t.context.ringBuffer.push(4)
+test('readAll', t => {
+  t.context.ringBuffer.setArray([1, 2, 3, 4])
+  t.true(
+    t.context.ringBuffer !== t.context.ringBuffer.readAll(),
+    'readAll() return copy of ringBuffer._arr')
+
   t.context.ringBuffer.push(5)
   t.context.ringBuffer.push(6)
   t.deepEqual(
     t.context.ringBuffer.readAll(), [2, 3, 4, 5, 6],
-    'read all'
+    'readAll with startIndex: 0'
   )
 
-  t.true(
-    t.context.ringBuffer !== t.context.ringBuffer.readAll(),
-    'readAll() return copy of ringBuffer._arr')
+  t.deepEqual(
+    t.context.ringBuffer.readAll(1), [3, 4, 5, 6, 2],
+    'readAll with startIndex: 1'
+  )
+  t.deepEqual(
+    t.context.ringBuffer.readAll(-1), [6, 2, 3, 4, 5],
+    'readAll with startIndex: -1'
+  )
 })
 
 test('clear', t => {
@@ -57,11 +69,4 @@ test('clear', t => {
 
   t.context.ringBuffer.clear()
   t.deepEqual(t.context.ringBuffer._arr, [], 'after clear()')
-})
-
-test('rotate', t => {
-  t.context.ringBuffer.setArray([1, 2, 3])
-  t.context.ringBuffer.rotate()
-
-  t.deepEqual(t.context.ringBuffer._arr, [3, 1, 2], 'rotate()')
 })
