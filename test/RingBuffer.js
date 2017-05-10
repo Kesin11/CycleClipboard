@@ -38,14 +38,28 @@ test('read', t => {
   t.is(t.context.ringBuffer.read(1), 2, 'read index 1')
   t.is(t.context.ringBuffer.read(-1), 3, 'read index -1')
   t.is(t.context.ringBuffer.read(-2), 2, 'read index -2')
+  t.is(t.context.ringBuffer.read(5), 3, 'read index 5')
+  t.is(t.context.ringBuffer.read(6), 1, 'read index 6')
+  t.is(t.context.ringBuffer.read(-5), 2, 'read index -5')
+  t.is(t.context.ringBuffer.read(-6), 1, 'read index -6')
 })
 
-test('readAll', t => {
+test('readAll basic behavior', t => {
   t.context.ringBuffer.setArray([1, 2, 3, 4])
   t.true(
     t.context.ringBuffer !== t.context.ringBuffer.readAll(),
-    'readAll() return copy of ringBuffer._arr')
+    'readAll() return copy of ringBuffer._arr'
+  )
 
+  t.context.ringBuffer.setArray([1, 2])
+  t.deepEqual(
+    t.context.ringBuffer.readAll(), [1, 2],
+    'readAll() return same size of buffer'
+  )
+})
+
+test('readAll with startIndex', t => {
+  t.context.ringBuffer.setArray([1, 2, 3, 4])
   t.context.ringBuffer.push(5)
   t.context.ringBuffer.push(6)
   t.deepEqual(
