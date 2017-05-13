@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <title>Hello World!</title>
   </head>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="index.css">
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-    <br>
     <div id="vue">
       <app :selected_entry="selectedEntry" :rest_entries="restEntries"></app>
     </div>

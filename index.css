@@ -1,0 +1,27 @@
+body {
+  background-color: rgba(0,0,0,0)
+}
+
+.selected-entry {
+  border: solid 2px orange;
+  border-radius: 16px;
+  margin-bottom: 0px
+}
+
+.selected-entry-inner {
+  padding: 2px 16px;
+  font-size: 32px;
+}
+
+.entry-list {
+  padding: 0px 12px;
+}
+
+.entry {
+  font-size: 20px;
+  padding: 10px 10px;
+}
+
+.entry:nth-child(2n){
+  background-color: #FDFDFD;
+}

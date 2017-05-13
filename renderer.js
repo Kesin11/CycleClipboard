@@ -10,10 +10,16 @@ const { RELOAD_ENTRIES, SUBMIT_ENTRY } = require('./lib/EventTypes')
 
 const AppComponent = Vue.component('app', {
   template: `
-    <div id="foo">
-      <h3>{{ selected_entry }}</h3>
-      <ul v-for="entry in rest_entries">
-        <li>{{ entry }}</li>
+    <div id="app">
+      <div class="panel panel-default selected-entry">
+        <div class="panel-body selected-entry-inner">
+          {{ selected_entry }}
+        </div>
+      </div>
+      <ul class="list-group entry-list">
+        <li class="list-group-item entry" v-for="entry in rest_entries">
+          {{ entry }}
+        </li>
       </ul>
     </div>
   `,
