@@ -11,13 +11,17 @@ const { RELOAD_ENTRIES, SUBMIT_ENTRY } = require('./lib/EventTypes')
 const AppComponent = Vue.component('app', {
   template: `
     <div id="foo">
-      <ul v-for="entry in entries">
+      <h3>{{ selected_entry }}</h3>
+      <ul v-for="entry in rest_entries">
         <li>{{ entry }}</li>
       </ul>
     </div>
   `,
   props: {
-    entries: {
+    selected_entry: {
+      default: ''
+    },
+    rest_entries: {
       default: []
     }
   }
@@ -26,12 +30,15 @@ const AppComponent = Vue.component('app', {
 const app = new Vue({
   el: '#vue',
   data: {
-    entries: []
+    selectedEntry: '',
+    restEntries: []
   },
   components: { AppComponent },
   methods: {
-    changeEntries (entries) {
-      this.entries = entries.reverse()
+    changeEntries (newEntries) {
+      const entries = [].concat(newEntries)
+      this.selectedEntry = entries.pop()
+      this.restEntries = entries
     }
   }
 })
