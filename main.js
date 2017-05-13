@@ -74,17 +74,10 @@ function registerGlobalShortcut () {
   globalShortcut.register('CommandOrControl+Shift+V', () => {
     resetAutoSubmit()
 
-    // rotate entries if window has already opend
-    if (mainWindow.isVisible()) {
-      const nextEntries = clipboardWatcher.getNextEntries()
-      mainWindow.webContents.send(RELOAD_ENTRIES, nextEntries)
-    // just open window
-    } else {
-      const nextEntries = clipboardWatcher.getEntries()
-      mainWindow.webContents.send(RELOAD_ENTRIES, nextEntries)
-      clipboardWatcher.startRotateMode()
-      mainWindow.show()
-    }
+    const nextEntries = clipboardWatcher.getNextEntries()
+    mainWindow.webContents.send(RELOAD_ENTRIES, nextEntries)
+
+    if (!mainWindow.isVisible()) mainWindow.show()
 
     mainWindow.focus()
 
@@ -102,8 +95,8 @@ function submit () {
   resetAutoSubmit()
 
   clipboardWatcher.writeFirstEntry()
+  clipboardWatcher.resetIndex()
   mainWindow.hide()
-  clipboardWatcher.endRotateMode()
   Menu.sendActionToFirstResponder('hide:') // 前のアプリにフォーカスを戻す
 }
 

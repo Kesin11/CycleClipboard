@@ -37,7 +37,6 @@ const app = new Vue({
 })
 
 ipcRenderer.on(RELOAD_ENTRIES, (_event, entries) => {
-  console.log(RELOAD_ENTRIES, entries)
   app.changeEntries(entries)
 })
 
