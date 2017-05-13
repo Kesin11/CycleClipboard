@@ -1,3 +1,4 @@
+const electron = require('electron')
 const {
   app,
   BrowserWindow,
@@ -18,15 +19,22 @@ let mainWindow
 const clipboardWatcher = new ClipboardWatcher()
 let submitTimeoutId
 
+const windowWidth = 800
+const windowHeight = 400
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: windowWidth,
+    height: windowHeight,
+    center: true,
     show: false,
-    frame: false
-    // transparent: true
+    frame: false,
+    transparent: true
   })
+
+  const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
+  mainWindow.setPosition(Math.floor((width - windowWidth) / 2), Math.floor(height * 0.4))
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -53,10 +61,14 @@ app.on('ready', () => {
   })
   registerGlobalShortcut()
   clipboardWatcher.startPolling()
-  // TODO: 最終的に不要であれば消しておく
-  // clipboardWatcher.onAddEntry(() => {
-  //   console.log("onAddEntry", clipboardWatcher.buffer)
-  // })
+
+  // for debug
+  // clipboardWatcher._buffer.setArray([1, 2, 3, 4, 5])
+  // setTimeout(() => {
+  //   const nextEntries = clipboardWatcher.getNextEntries()
+  //   mainWindow.webContents.send(RELOAD_ENTRIES, nextEntries)
+  //   if (!mainWindow.isVisible()) mainWindow.show()
+  // }, 1000)
 })
 
 app.on('will-quit', () => {
