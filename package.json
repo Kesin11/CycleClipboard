@@ -4,7 +4,6 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "postinstall": "electron-rebuild",
     "start": "electron .",
     "dev": "NODE_ENV=development npm run start",
     "lint": "eslint .",
@@ -24,7 +23,6 @@
   "devDependencies": {
     "ava": "^0.19.1",
     "electron": "~1.6.2",
-    "electron-rebuild": "^1.5.7",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.2.0",
