@@ -19,10 +19,11 @@ let mainWindow
 const clipboardWatcher = new ClipboardWatcher()
 let submitTimeoutId
 
-const windowWidth = 800
-const windowHeight = 400
-
 function createWindow () {
+  const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
+  const windowWidth = Math.floor(width * 0.8)
+  const windowHeight = 400
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: windowWidth,
@@ -33,7 +34,6 @@ function createWindow () {
     transparent: true
   })
 
-  const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
   mainWindow.setPosition(Math.floor((width - windowWidth) / 2), Math.floor(height * 0.4))
 
   // and load the index.html of the app.
