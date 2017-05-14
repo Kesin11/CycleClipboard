@@ -6,21 +6,21 @@
 // https://stackoverflow.com/questions/39488660/vue-js-2-0-not-rendering-anything
 const Vue = require('vue/dist/vue.js')
 const ipcRenderer = require('electron').ipcRenderer
-const { RELOAD_ENTRIES, SUBMIT_ENTRY } = require('./lib/EventTypes')
+const { RELOAD_ENTRIES, SUBMIT_ENTRY, FIX_ENTRY } = require('./lib/EventTypes')
 
 const AppComponent = Vue.component('app', {
   template: `
     <div id="app">
       <div class="panel panel-default selected-entry">
-        <div class="panel-body selected-entry-inner">
+        <div class="panel-body selected-entry-inner" v-bind:class="{ 'fix-entry-animation': fix_entry_flash }">
           {{ selected_entry }}
         </div>
       </div>
-      <ul class="list-group entry-list">
-        <li class="list-group-item entry" v-for="entry in rest_entries">
+      <transition-group name="list" tag="ul" class="list-group entry-list">
+        <li class="list-group-item list-entry" v-for="entry in rest_entries" v-bind:key="entry">
           {{ entry }}
         </li>
-      </ul>
+      </transition-group>
     </div>
   `,
   props: {
@@ -29,6 +29,9 @@ const AppComponent = Vue.component('app', {
     },
     rest_entries: {
       default: []
+    },
+    fix_entry_flash: {
+      default: false
     }
   }
 })
@@ -37,7 +40,8 @@ const app = new Vue({
   el: '#vue',
   data: {
     selectedEntry: '',
-    restEntries: []
+    restEntries: [],
+    fix_entry_flash: false
   },
   components: { AppComponent },
   methods: {
@@ -45,12 +49,20 @@ const app = new Vue({
       const entries = [].concat(newEntries)
       this.selectedEntry = entries.pop()
       this.restEntries = entries
+    },
+    startFixEntryAnimation () {
+      this.fix_entry_flash = true
+      setTimeout(() => { this.fix_entry_flash = false }, 1000)
     }
   }
 })
 
 ipcRenderer.on(RELOAD_ENTRIES, (_event, entries) => {
   app.changeEntries(entries)
+})
+
+ipcRenderer.on(FIX_ENTRY, (_event) => {
+  app.startFixEntryAnimation()
 })
 
 // submit when press Enter key

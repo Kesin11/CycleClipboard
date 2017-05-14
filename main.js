@@ -10,9 +10,9 @@ const {
 const path = require('path')
 const url = require('url')
 const ClipboardWatcher = require('./lib/ClipboardWatcher')
-const { RELOAD_ENTRIES, SUBMIT_ENTRY } = require('./lib/EventTypes')
+const { RELOAD_ENTRIES, SUBMIT_ENTRY, FIX_ENTRY } = require('./lib/EventTypes')
 
-const SUBMIT_TIMEOUT = 3000
+const SUBMIT_TIMEOUT = 1500
 
 let tray
 let mainWindow
@@ -108,10 +108,21 @@ function submit () {
 
   clipboardWatcher.writeFirstEntry()
   clipboardWatcher.resetIndex()
-  mainWindow.hide()
-  Menu.sendActionToFirstResponder('hide:') // 前のアプリにフォーカスを戻す
+  startFixEntryAnimation()
+    // wait for animation
+    .then(() => {
+      mainWindow.hide()
+      Menu.sendActionToFirstResponder('hide:') // 前のアプリにフォーカスを戻す
+    })
 }
 
 function resetAutoSubmit () {
   if (submitTimeoutId) clearTimeout(submitTimeoutId)
+}
+
+function startFixEntryAnimation () {
+  return new Promise((resolve) => {
+    mainWindow.webContents.send(FIX_ENTRY)
+    setTimeout(resolve, 500)
+  })
 }
