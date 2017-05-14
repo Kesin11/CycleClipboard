@@ -16,11 +16,11 @@ const AppComponent = Vue.component('app', {
           {{ selected_entry }}
         </div>
       </div>
-      <transition-group name="list" tag="ul" class="list-group entry-list">
+      <ul class="list-group entry-list">
         <li class="list-group-item list-entry" v-for="entry in rest_entries" v-bind:key="entry">
           {{ entry }}
         </li>
-      </transition-group>
+      </ul>
     </div>
   `,
   props: {
