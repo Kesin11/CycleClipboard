@@ -47,7 +47,7 @@ const app = new Vue({
   methods: {
     changeEntries (newEntries) {
       const entries = [].concat(newEntries)
-      this.selectedEntry = entries.pop()
+      this.selectedEntry = entries.shift()
       this.restEntries = entries
     },
     startFixEntryAnimation () {
