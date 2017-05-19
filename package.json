@@ -8,7 +8,8 @@
     "dev": "NODE_ENV=development npm run start",
     "lint": "eslint .",
     "test": "ava",
-    "test:watch": "ava --watch"
+    "test:watch": "ava --watch",
+    "release": "electron-packager . --out=releases --overwrite"
   },
   "repository": "https://github.com/Kesin11/CycleClipboard",
   "keywords": [
@@ -20,6 +21,7 @@
   "devDependencies": {
     "ava": "^0.19.1",
     "electron": "~1.6.2",
+    "electron-packager": "^8.7.0",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.2.0",
