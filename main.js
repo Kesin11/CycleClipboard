@@ -57,23 +57,12 @@ function createTray () {
   tray.setContextMenu(contextMenu)
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow()
   createTray()
   if (app.dock) app.dock.hide() // Don't show on dock
   registerGlobalShortcut()
   clipboardWatcher.startPolling()
-
-  // for debug
-  // clipboardWatcher._buffer.setArray([1, 2, 3, 4, 5])
-  // setTimeout(() => {
-  //   const nextEntries = clipboardWatcher.getNextEntries()
-  //   mainWindow.webContents.send(RELOAD_ENTRIES, nextEntries)
-  //   if (!mainWindow.isVisible()) mainWindow.show()
-  // }, 1000)
 })
 
 app.on('will-quit', () => {
