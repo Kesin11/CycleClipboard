@@ -49,16 +49,21 @@ function createWindow () {
   }
 }
 
+function createTray () {
+  tray = new Tray(path.join(__dirname, 'assets/icon20.png'))
+  const contextMenu = Menu.buildFromTemplate([
+    {label: 'Quit', role: 'quit'}
+  ])
+  tray.setContextMenu(contextMenu)
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow()
+  createTray()
   if (app.dock) app.dock.hide() // Don't show on dock
-  tray = new Tray(path.join(__dirname, 'assets/icon20.png'))
-  tray.on('click', () => {
-    mainWindow.show()
-  })
   registerGlobalShortcut()
   clipboardWatcher.startPolling()
 
