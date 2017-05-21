@@ -52,7 +52,7 @@ function createWindow () {
 function createTray () {
   tray = new Tray(path.join(__dirname, 'assets/icon20.png'))
   const contextMenu = Menu.buildFromTemplate([
-    {label: 'Quit', role: 'quit'}
+    {label: 'Quit CycleClipboard', role: 'quit'}
   ])
   tray.setContextMenu(contextMenu)
 }
