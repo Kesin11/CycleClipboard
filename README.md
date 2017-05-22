@@ -1,5 +1,7 @@
 # CycleClipboard
 
+[![Build Status](https://travis-ci.org/Kesin11/CycleClipboard.svg?branch=master)](https://travis-ci.org/Kesin11/CycleClipboard)
+
 Clipboard Extension like yank-ring or kill-ring
 
 ## npm command
