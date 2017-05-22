@@ -77,7 +77,7 @@ ipcMain.on(SUBMIT_ENTRY, (_event) => {
 })
 
 function registerGlobalShortcut () {
-  globalShortcut.register('CommandOrControl+Shift+V', () => {
+  globalShortcut.register('Command+Control+V', () => {
     resetAutoSubmit()
 
     const nextEntries = clipboardWatcher.getNextEntries()
