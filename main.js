@@ -92,9 +92,6 @@ function registerGlobalShortcut () {
       submit()
     }, SUBMIT_TIMEOUT)
   })
-  globalShortcut.register('CommandOrControl+Shift+C', () => {
-    submit()
-  })
 }
 
 function submit () {
