@@ -1,8 +1,8 @@
-# CycleClipboard
-
-[![Build Status](https://travis-ci.org/Kesin11/CycleClipboard.svg?branch=master)](https://travis-ci.org/Kesin11/CycleClipboard)
+# CycleClipboard [![Build Status](https://travis-ci.org/Kesin11/CycleClipboard.svg?branch=master)](https://travis-ci.org/Kesin11/CycleClipboard)
 
 Clipboard extension app like yank-ring or kill-ring
+
+![cycle_clipboard.gif](https://raw.githubusercontent.com/Kesin11/CycleClipboard/gif/gif/cycle_clipboard.gif)
 
 ## USAGE
 1. Copy some text as normal.
