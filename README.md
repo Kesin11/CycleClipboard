@@ -10,6 +10,9 @@ Clipboard extension app like yank-ring or kill-ring
 3. Repeat `command + control + v` until text that you want to copy show in top of list.
 4. press `Enter` (or wait few second) for copy selected text to system clipbord.
 
+## Support OS
+Currently only support macOS
+
 ## npm command
 
 ```bash
